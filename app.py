@@ -7,14 +7,24 @@ from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
 from sqlalchemy import create_engine, text
 from langchain_groq import ChatGroq
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 import json
 import re
 import os
 
 load_dotenv()
 
+
 app = FastAPI()
 
+# Allow all origins (development-safe)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <-- allow all
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Load environment variables
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
